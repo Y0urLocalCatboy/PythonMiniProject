@@ -25,14 +25,15 @@ while running:
 
             # if the mouse is clicked on the
             # button the game is terminated
-            if screen.get_width() / 2 <= mouse[0] <= screen.get_width() / 2 + 140 and screen.get_height() / 2 <= mouse[1] <= screen.get_height() / 2 + 40:
+            if width / 2 <= mouse[0] <= width / 2 + 140 and height / 2 <= mouse[1] <= height / 2 + 40:
                 with open("MainScene.py") as file:
                     exec(file.read())
     keys = pygame.key.get_pressed()
     if keys[pygame.K_p]:
         pygame.time.delay(500)
         with open("MainScene.py") as file:
-            exec(file.read())        # if mouse is hovered on a button it
+            exec(file.read())
+        # if mouse is hovered on a button it
         # changes to lighter shade
     if width / 2 <= mouse[0] <= width / 2 + 140 and height / 2 <= mouse[1] <= height / 2 + 40:
         pygame.draw.rect(screen, "grey", [width / 2, height / 2, 140, 40])
