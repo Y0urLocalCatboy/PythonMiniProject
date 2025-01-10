@@ -1,4 +1,5 @@
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 800
-FPS = 60
-
+SCREEN_WIDTH = [1000]
+SCREEN_HEIGHT = [1000]
+FPS = [60]
+music_switch = [True]
+running = [True]

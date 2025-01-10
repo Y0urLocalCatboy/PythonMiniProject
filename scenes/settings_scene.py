@@ -1,12 +1,16 @@
 import pygame
 
 from scenes.loading_scene import loading_scene
-from utils.config import SCREEN_WIDTH, SCREEN_HEIGHT, FPS
-from utils.scene_utils import button, hover_over
+from utils.config import SCREEN_WIDTH, SCREEN_HEIGHT, FPS, music_switch
+from utils.scene_utils import button, hover_over, music_on_off, change_size
+
 
 def settings_scene(screen, clock, running):
     from scenes.menu_scene import menu_scene
     loading_scene(screen)
+
+    # setting up the sizes for the game
+    sizes = [[800, 600], [800, 800], [1000, 1000], [1280, 720]]
 
     # font initialization
     pygame.font.init()
@@ -15,9 +19,9 @@ def settings_scene(screen, clock, running):
     # button position and size
     button_width = 140
     button_height = 40
-    button_x = (SCREEN_WIDTH - button_width) / 2  # rectangle isn't centered by default
-    button_y = (SCREEN_HEIGHT - button_height) / 2
-    spacing = SCREEN_HEIGHT // 6  # spacing between buttons
+    button_x = (SCREEN_WIDTH[0] - button_width) / 2  # rectangle isn't centered by default
+    button_y = (SCREEN_HEIGHT[0] - button_height) / 2
+    spacing = SCREEN_HEIGHT[0] // 6  # spacing between buttons
 
     # button initialization
     sound_button = [button_x, button_y - spacing,
@@ -42,10 +46,22 @@ def settings_scene(screen, clock, running):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if hover_over(sound_button, mouse):
                     print("Change Sound")
+                    music_switch[0] = not music_switch[0]
+                    music_on_off("assets/sounds/background_music.mid")
                 elif hover_over(change_size_button, mouse):
-                    print("Change Size")
+                    current_height = pygame.display.get_surface().get_size()[1]
+                    match current_height:
+                        case 600:
+                            change_size(sizes[1][0], sizes[1][1])
+                        case 800:
+                            change_size(sizes[2][0], sizes[2][1])
+                        case 1000:
+                            change_size(sizes[3][0], sizes[3][1])
+                        case _:
+                            change_size(sizes[0][0], sizes[0][1])
+                    settings_scene(screen, clock, running)
                 elif hover_over(confirm_button, mouse):
-                    menu_scene(screen, clock, running)
+                    menu_scene(running)
             if not running[0]:
                 break
 
@@ -57,4 +73,4 @@ def settings_scene(screen, clock, running):
 
 
         pygame.display.flip()
-        clock.tick(FPS)
+        clock.tick(FPS[0])

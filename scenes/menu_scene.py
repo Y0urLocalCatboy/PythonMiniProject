@@ -11,7 +11,7 @@ def menu_scene(running):
     pygame.init()
     clock = pygame.time.Clock()
 
-    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    screen = pygame.display.set_mode((SCREEN_WIDTH[0], SCREEN_HEIGHT[0]))
     loading_scene(screen)
 
     # font initialization
@@ -21,9 +21,9 @@ def menu_scene(running):
     # button position and size
     button_width = 140
     button_height = 40
-    button_x = (SCREEN_WIDTH - button_width) / 2 # rectangle isn't centered by default
-    button_y = (SCREEN_HEIGHT - button_height) / 2
-    spacing = SCREEN_HEIGHT // 6 # spacing between buttons
+    button_x = (SCREEN_WIDTH[0] - button_width) / 2 # rectangle isn't centered by default
+    button_y = (SCREEN_HEIGHT[0] - button_height) / 2
+    spacing = SCREEN_HEIGHT[0] // 6 # spacing between buttons
 
     # button initialization
     main_scene_button = [button_x, button_y - spacing,
@@ -37,7 +37,6 @@ def menu_scene(running):
     exit_button = [button_x, button_y + spacing,
                    button_width, button_height,
                    "Exit"]
-
 
     while running[0]:
 
@@ -65,7 +64,7 @@ def menu_scene(running):
         button(exit_button, mouse, screen, font)
 
         pygame.display.flip()
-        clock.tick(FPS)
+        clock.tick(FPS[0])
 
     pygame.quit()
 

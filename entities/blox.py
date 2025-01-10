@@ -1,11 +1,11 @@
+from entities.entity import Entity
 from entities.status import Status
 
-class Blox:
+class Blox(Entity):
 
-    def __init__(self, name, status, position):
-        self.name = name
+    def __init__(self, name, position, status):
+        super().__init__(name, position)
         self.status = status
-        self.position = position
 
     def move(self, new_position):
         self.position = new_position

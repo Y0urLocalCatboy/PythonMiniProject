@@ -1,6 +1,6 @@
 import pygame
 
-from utils.config import SCREEN_WIDTH, SCREEN_HEIGHT
+from utils.config import SCREEN_WIDTH, SCREEN_HEIGHT, music_switch
 
 
 def button(to_scene, mouse, screen, font):
@@ -20,7 +20,31 @@ def hover_over(to_scene, mouse):
         return True
     return False
 
-def draw_background(screen, background_path):
+def draw_background_image(screen, background_path):
     background = pygame.image.load(background_path).convert()
-    background = pygame.transform.scale(background, (SCREEN_WIDTH, SCREEN_HEIGHT))
+    background = pygame.transform.scale(background, (SCREEN_WIDTH[0], SCREEN_HEIGHT[0]))
     screen.blit(background, (0, 0))
+
+def draw_road(screen, width, height):
+    screen.fill((34, 139, 34))
+    road_width = width / 8
+    road = pygame.Rect(width / 2 - road_width / 2, 0, road_width, height)
+    pygame.draw.rect(screen, (64, 64, 64), road)
+
+def draw_bloxes(screen, bloxes):
+    for blox in bloxes:
+        pygame.draw.circle(screen, blox.status.get_color(), blox.position,
+                           SCREEN_WIDTH[0] / 100 if  SCREEN_HEIGHT[0] > SCREEN_WIDTH[0]
+                           else SCREEN_HEIGHT[0] / 100)
+def music_on_off(path):
+    music = pygame.mixer.music.load(path)
+    if music_switch[0]:
+        pygame.mixer.music.play(-1)
+        return True
+    else :
+        pygame.mixer.music.stop()
+        return False
+def change_size(width, height):
+    SCREEN_WIDTH[0] = width
+    SCREEN_HEIGHT[0] = height
+    pygame.display.set_mode((width, height))
