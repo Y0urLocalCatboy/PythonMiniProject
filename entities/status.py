@@ -12,3 +12,6 @@ class Status(Enum):
             return (255, 0, 0)
         elif self == Status.RECOVERED:
             return (0, 0, 255)
+
+
+
