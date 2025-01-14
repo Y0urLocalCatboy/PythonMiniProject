@@ -5,13 +5,14 @@ from utils.config import SCREEN_WIDTH, SCREEN_HEIGHT
 
 class Blox(Entity):
 
-    def __init__(self, name, position, speed=pygame.Vector2(1, 1), status = Status.HEALTHY,
+    def __init__(self, name, position, speed=pygame.Vector2(1, 1), status = Status.HEALTHY, recovery_time=3,
                  radius=SCREEN_WIDTH[0] / 100 if SCREEN_HEIGHT[0] > SCREEN_WIDTH[0] else SCREEN_HEIGHT[0] / 100):
         super().__init__(name, position)
         self.status = status
         self.speed = speed
         self.radius = radius
         self.status_timer = 0
+        self.recovery_time = recovery_time
 
     def move(self, screen_width, screen_height):
         self.position += self.speed
@@ -52,7 +53,7 @@ class Blox(Entity):
 
     def update_status(self, dt):
         self.status_timer += dt
-        if self.status == Status.SICK and self.status_timer >= 3:
+        if self.status == Status.SICK and self.status_timer >= self.recovery_time:
             self.change_status()
-        elif self.status == Status.RECOVERED and self.status_timer >= 5:
+        elif self.status == Status.RECOVERED and self.status_timer >= self.recovery_time:
             self.change_status()

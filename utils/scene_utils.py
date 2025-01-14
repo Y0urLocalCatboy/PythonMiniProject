@@ -52,12 +52,21 @@ def change_size(width, height):
     SCREEN_HEIGHT[0] = height
     pygame.display.set_mode((width, height))
 
-def generate_bloxes(amount):
+def generate_bloxes(amount, ill_amount, recovery_time):
     bloxes = []
     radius = SCREEN_WIDTH[0] / 100 if SCREEN_HEIGHT[0] > SCREEN_WIDTH[0] else SCREEN_HEIGHT[0] / 100
+    def gen_speed():
+        speed = 0
+        while speed == 0:
+            speed = random.randint(-2, 2)
+        return speed
+
     for i in range(amount):
-        speed_x = random.randint(-2, 2)
-        speed_y = random.randint(-2, 2)
-        bloxes.append(Blox("Blox" + str(i), pygame.Vector2(int(10 + i * (radius*1.2)), int(200 + i * (radius*1.2))),
-                           pygame.Vector2(speed_x, speed_y), Status.HEALTHY))
+        position = pygame.Vector2(random.randint(0, SCREEN_WIDTH[0]), random.randint(0, SCREEN_HEIGHT[0]))
+        if i < ill_amount:
+            bloxes.append(
+                Blox("Blox" + str(i), position, pygame.Vector2(gen_speed(), gen_speed()), Status.SICK, recovery_time))
+        else:
+            bloxes.append(Blox("Blox" + str(i), position, pygame.Vector2(gen_speed(), gen_speed()), Status.HEALTHY,
+                               recovery_time))
     return bloxes
