@@ -3,6 +3,7 @@ import pygame
 from scenes.loading_scene import loading_scene
 from scenes.main_scene import main_scene
 from scenes.settings_scene import settings_scene
+from scenes.setup_scene import setup_scene
 from utils.config import SCREEN_WIDTH, SCREEN_HEIGHT, FPS
 from utils.scene_utils import button, hover_over
 

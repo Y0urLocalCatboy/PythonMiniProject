@@ -3,7 +3,7 @@ import time
 import pygame
 
 
-from utils.config import SCREEN_WIDTH, SCREEN_HEIGHT, FPS, music_switch
+from utils.config import SCREEN_WIDTH, SCREEN_HEIGHT, FPS, MUSIC_SWITCH
 from utils.scene_utils import draw_background_image, music_on_off
 
 

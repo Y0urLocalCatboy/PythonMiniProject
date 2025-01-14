@@ -1,6 +1,6 @@
 import pygame
 
-from utils.config import SCREEN_WIDTH, SCREEN_HEIGHT, music_switch
+from utils.config import SCREEN_WIDTH, SCREEN_HEIGHT, MUSIC_SWITCH
 
 
 def button(to_scene, mouse, screen, font):
@@ -36,7 +36,7 @@ def draw_bloxes(screen, bloxes):
         pygame.draw.circle(screen, blox.status.get_color(), blox.position, blox.radius)
 def music_on_off(path):
     music = pygame.mixer.music.load(path)
-    if music_switch[0]:
+    if MUSIC_SWITCH[0]:
         pygame.mixer.music.play(-1)
         return True
     else :
