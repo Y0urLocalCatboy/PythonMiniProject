@@ -6,23 +6,24 @@ from entities.building import Building
 from entities.status import Status
 from scenes.loading_scene import loading_scene
 from utils.config import FPS, SCREEN_WIDTH, SCREEN_HEIGHT
-from utils.scene_utils import draw_road, draw_bloxes
+from utils.scene_utils import draw_road, draw_bloxes, generate_bloxes
 
 
-def main_scene(screen, clock, running):
+def main_scene(screen, clock, running, amount):
     loading_scene(screen)
     with open('data.txt', 'w') as file:
         file.write("DATA FOR A SIMULATION\n\n")
 
-    bloxes = [
-        Blox("Blox1", pygame.Vector2(200, 200), pygame.Vector2(0, 2)),
-        Blox("Blox2", pygame.Vector2(300, 300), pygame.Vector2(-2, 3)),
-        Blox("Blox3", pygame.Vector2(400, 400)),
-        Blox("Blox4", pygame.Vector2(500, 500), pygame.Vector2(2, 0)),
-        Blox("Blox5", pygame.Vector2(600, 600), pygame.Vector2(-2, -2)),
-        Blox("Blox6", pygame.Vector2(700, 700), pygame.Vector2(0, -2)),
-        Blox("Blox7", pygame.Vector2(800, 800), pygame.Vector2(2, 0)),
-    ]
+    # bloxes = [
+    #     Blox("Blox1", pygame.Vector2(200, 200), pygame.Vector2(0, 2)),
+    #     Blox("Blox2", pygame.Vector2(300, 300), pygame.Vector2(-2, 3)),
+    #     Blox("Blox3", pygame.Vector2(400, 400)),
+    #     Blox("Blox4", pygame.Vector2(500, 500), pygame.Vector2(2, 0)),
+    #     Blox("Blox5", pygame.Vector2(600, 600), pygame.Vector2(-2, -2)),
+    #     Blox("Blox6", pygame.Vector2(700, 700), pygame.Vector2(0, -2)),
+    #     Blox("Blox7", pygame.Vector2(800, 800), pygame.Vector2(2, 0)),
+    # ]
+    bloxes = generate_bloxes(amount)
     hospital = Building("Hospital", pygame.Vector2(100, 100), 10, bloxes)
     stats =[healthy, sick, recovered] = [0, 0, 0]
     current_time = 0

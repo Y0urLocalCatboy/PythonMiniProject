@@ -10,6 +10,5 @@ from utils.scene_utils import draw_background_image, music_on_off
 def loading_scene(screen):
     draw_background_image(screen, "assets/images/loading.webp")
     pygame.display.update()
-    music_on_off("assets/sounds/background_music.mid")
     time.sleep(1)
     return

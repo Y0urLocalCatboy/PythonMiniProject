@@ -1,5 +1,10 @@
-import pygame
+from random import random
 
+import pygame
+import random
+
+from entities.blox import Blox
+from entities.status import Status
 from utils.config import SCREEN_WIDTH, SCREEN_HEIGHT, MUSIC_SWITCH
 
 
@@ -46,3 +51,13 @@ def change_size(width, height):
     SCREEN_WIDTH[0] = width
     SCREEN_HEIGHT[0] = height
     pygame.display.set_mode((width, height))
+
+def generate_bloxes(amount):
+    bloxes = []
+    radius = SCREEN_WIDTH[0] / 100 if SCREEN_HEIGHT[0] > SCREEN_WIDTH[0] else SCREEN_HEIGHT[0] / 100
+    for i in range(amount):
+        speed_x = random.randint(-2, 2)
+        speed_y = random.randint(-2, 2)
+        bloxes.append(Blox("Blox" + str(i), pygame.Vector2(int(10 + i * (radius*1.2)), int(200 + i * (radius*1.2))),
+                           pygame.Vector2(speed_x, speed_y), Status.HEALTHY))
+    return bloxes

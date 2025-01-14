@@ -5,7 +5,8 @@ from scenes.main_scene import main_scene
 from scenes.settings_scene import settings_scene
 from scenes.setup_scene import setup_scene
 from utils.config import SCREEN_WIDTH, SCREEN_HEIGHT, FPS
-from utils.scene_utils import button, hover_over
+from utils.scene_utils import button, hover_over, music_on_off
+
 
 def menu_scene(running):
     # pygame initialization
@@ -13,6 +14,7 @@ def menu_scene(running):
     clock = pygame.time.Clock()
 
     screen = pygame.display.set_mode((SCREEN_WIDTH[0], SCREEN_HEIGHT[0]))
+    music_on_off("assets/sounds/background_music.mid")
     loading_scene(screen)
 
     # font initialization
@@ -50,7 +52,7 @@ def menu_scene(running):
                 running[0] = False
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if hover_over(main_scene_button, mouse):
-                    main_scene(screen, clock, running)
+                    setup_scene(screen, clock, running)
                 elif hover_over(exit_button, mouse):
                     running[0] = False
                     break
