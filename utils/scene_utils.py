@@ -33,9 +33,7 @@ def draw_road(screen, width, height):
 
 def draw_bloxes(screen, bloxes):
     for blox in bloxes:
-        pygame.draw.circle(screen, blox.status.get_color(), blox.position,
-                           SCREEN_WIDTH[0] / 100 if  SCREEN_HEIGHT[0] > SCREEN_WIDTH[0]
-                           else SCREEN_HEIGHT[0] / 100)
+        pygame.draw.circle(screen, blox.status.get_color(), blox.position, blox.radius)
 def music_on_off(path):
     music = pygame.mixer.music.load(path)
     if music_switch[0]:

@@ -13,8 +13,8 @@ def main_scene(screen, clock, running):
     loading_scene(screen)
 
     bloxes = [
-        Blox("Blox1", pygame.Vector2(200, 200), Status.HEALTHY),
-        Blox("Blox2", pygame.Vector2(300, 300), Status.SICK),
+        Blox("Blox1", pygame.Vector2(200, 200), Status.HEALTHY, pygame.Vector2(0, 2)),
+        Blox("Blox2", pygame.Vector2(300, 300), Status.SICK, pygame.Vector2(-2, 3)),
         Blox("Blox3", pygame.Vector2(400, 400), Status.RECOVERED),
     ]
     hospital = Building("Hospital", pygame.Vector2(500, 500), 10, bloxes)
@@ -25,7 +25,12 @@ def main_scene(screen, clock, running):
             if event.type == pygame.QUIT:
                 running[0] = False
 
-        draw_bloxes(screen, bloxes)
+        # Building
         pygame.draw.rect(screen, "gray", (*hospital.position, SCREEN_WIDTH[0] / 10, SCREEN_HEIGHT[0] / 10))
+
+        # Bloxes
+        draw_bloxes(screen, bloxes)
+        for blox in bloxes:
+            blox.move(screen.get_width(), screen.get_height())
         pygame.display.flip()
         clock.tick(FPS[0])
