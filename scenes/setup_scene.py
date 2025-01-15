@@ -53,7 +53,7 @@ def setup_scene(screen, clock, running):
                         ill_amount = int(ill_bloxes_amount)
                         main_scene(screen, clock, running, amount=amount, ill_amount=ill_amount, recovery_time=recovery)
                     except ValueError:
-                        error_message = "Please enter valid numbers"
+                        error_message = "Please enter valid numbers!"
                 if bloxes_amount_input_box.collidepoint(event.pos):
                     amount_of_bloxes_active = True
                     recovery_time_active = False
@@ -102,11 +102,11 @@ def setup_scene(screen, clock, running):
         button(confirm_button, mouse, screen, font)
 
         # Render the labels
-        label_surface = font.render("Specify amount of bloxes", True, (0, 0, 0))
+        label_surface = font.render("Specify amount of bloxes:", True, (0, 0, 0))
         label_rect = label_surface.get_rect(center=(SCREEN_WIDTH[0] / 2, bloxes_amount_input_box.y - 40))
         screen.blit(label_surface, label_rect)
 
-        recovery_label_surface = font.render("Specify time to recovery", True, (0, 0, 0))
+        recovery_label_surface = font.render("Specify time to recovery:", True, (0, 0, 0))
         recovery_label_rect = recovery_label_surface.get_rect(center=(SCREEN_WIDTH[0] / 2, recovery_time_input_box.y - 40))
         screen.blit(recovery_label_surface, recovery_label_rect)
 
@@ -115,7 +115,7 @@ def setup_scene(screen, clock, running):
         screen.blit(ill_bloxes_label_surface, ill_bloxes_label_rect)
 
         # Render input boxes
-        color = (200, 200, 200) if amount_input_text else (0, 0, 0)
+        color = (200, 200, 200) if amount_input_text != "" else (0, 0, 0)
         pygame.draw.rect(screen, color, bloxes_amount_input_box, 2)
 
         recovery_color = (200, 200, 200) if recovery_time else (0, 0, 0)
@@ -125,15 +125,15 @@ def setup_scene(screen, clock, running):
         pygame.draw.rect(screen, ill_bloxes_color, ill_bloxes_amount_input_box, 2)
 
         # Render textes
-        text_surface = font.render(amount_input_text, True, (0, 0, 0))
+        text_surface = font.render(amount_input_text, True, "black")
         screen.blit(text_surface, (bloxes_amount_input_box.x + 5, bloxes_amount_input_box.y + 5))
         bloxes_amount_input_box.w = max(200, text_surface.get_width() + 10)
 
-        recovery_text_surface = font.render(recovery_time, True, (0, 0, 0))
+        recovery_text_surface = font.render(recovery_time, True, "black")
         screen.blit(recovery_text_surface, (recovery_time_input_box.x + 5, recovery_time_input_box.y + 5))
         recovery_time_input_box.w = max(200, recovery_text_surface.get_width() + 10)
 
-        ill_bloxes_text_surface = font.render(ill_bloxes_amount, True, (0, 0, 0))
+        ill_bloxes_text_surface = font.render(ill_bloxes_amount, True, "black")
         screen.blit(ill_bloxes_text_surface, (ill_bloxes_amount_input_box.x + 5, ill_bloxes_amount_input_box.y + 5))
         ill_bloxes_amount_input_box.w = max(200, ill_bloxes_text_surface.get_width() + 10)
 
