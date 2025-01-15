@@ -10,7 +10,7 @@ def settings_scene(screen, clock, running):
     loading_scene(screen)
 
     # setting up the sizes for the game
-    sizes = [BASE_SIZE, [800, 600], [800, 800], [1000, 1000], [1280, 720]]
+    sizes = [BASE_SIZE, [1000, 1000], [1280, 720]]
 
     # font initialization
     pygame.font.init()
@@ -50,14 +50,10 @@ def settings_scene(screen, clock, running):
                     music_on_off("assets/sounds/background_music.mid")
                 elif hover_over(change_size_button, mouse):
                     current_height = pygame.display.get_surface().get_size()[1]
-                    if current_height == 400:
+                    if current_height == 800:
                         change_size(sizes[1][0], sizes[1][1])
-                    elif current_height == 600:
-                        change_size(sizes[2][0], sizes[2][1])
-                    elif current_height == 800:
-                        change_size(sizes[3][0], sizes[3][1])
                     elif current_height == 1000:
-                        change_size(sizes[4][0], sizes[4][1])
+                        change_size(sizes[2][0], sizes[2][1])
                     else:
                         change_size(sizes[0][0], sizes[0][1])
                     settings_scene(screen, clock, running)

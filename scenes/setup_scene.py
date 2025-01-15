@@ -18,7 +18,7 @@ def setup_scene(screen, clock, running):
     recovery_time_input_box = pygame.Rect((SCREEN_WIDTH[0] - 200) / 2, SCREEN_HEIGHT[0] / 6 + 100, 200, 40)
     ill_bloxes_amount_input_box = pygame.Rect((SCREEN_WIDTH[0] - 200) / 2, SCREEN_HEIGHT[0] / 6 + 200, 200, 40)
 
-    amount_input_text = "10"
+    amount_input_text = "100"
     recovery_time = "5"
     ill_bloxes_amount = "2"
 
@@ -27,6 +27,7 @@ def setup_scene(screen, clock, running):
     ill_bloxes_amount_active = False
 
     error_message = ""
+    random_move = False
 
     # button position and size
     button_width = 140
@@ -35,7 +36,8 @@ def setup_scene(screen, clock, running):
     button_y = ill_bloxes_amount_input_box.y + 120  # Adjusted to be lower
 
     # button initialization
-    confirm_button = [button_x, button_y, button_width, button_height, "Confirm"]
+    confirm_button = [button_x, button_y + 80, button_width, button_height, "Confirm"]
+    random_move_button = [button_x - 25, button_y - 50, button_width + 50, button_height, "Random move"]
 
     while running[0]:
 
@@ -51,24 +53,23 @@ def setup_scene(screen, clock, running):
                         amount = int(amount_input_text)
                         recovery = int(recovery_time) + 1
                         ill_amount = int(ill_bloxes_amount)
-                        main_scene(screen, clock, running, amount=amount, ill_amount=ill_amount, recovery_time=recovery)
+                        main_scene(screen, clock, running, amount=amount, ill_amount=ill_amount, recovery_time=recovery, random_move=random_move)
                     except ValueError:
                         error_message = "Please enter valid numbers!"
+                elif hover_over(random_move_button, mouse):
+                    random_move = not random_move
                 if bloxes_amount_input_box.collidepoint(event.pos):
                     amount_of_bloxes_active = True
                     recovery_time_active = False
                     ill_bloxes_amount_active = False
-                    amount_input_text = ""
                 elif recovery_time_input_box.collidepoint(event.pos):
                     amount_of_bloxes_active = False
                     recovery_time_active = True
                     ill_bloxes_amount_active = False
-                    recovery_time = ""
                 elif ill_bloxes_amount_input_box.collidepoint(event.pos):
                     amount_of_bloxes_active = False
                     recovery_time_active = False
                     ill_bloxes_amount_active = True
-                    ill_bloxes_amount = ""
                 else:
                     amount_of_bloxes_active = False
                     recovery_time_active = False
@@ -100,6 +101,7 @@ def setup_scene(screen, clock, running):
 
         # button drawing
         button(confirm_button, mouse, screen, font)
+        button(random_move_button, mouse, screen, font)
 
         # Render the labels
         label_surface = font.render("Specify amount of bloxes:", True, (0, 0, 0))
@@ -140,8 +142,14 @@ def setup_scene(screen, clock, running):
         # Render the error message
         if error_message:
             error_surface = font.render(error_message, True, (255, 0, 0))
-            error_rect = error_surface.get_rect(center=(SCREEN_WIDTH[0] / 2, confirm_button[1] - 50))
+            error_rect = error_surface.get_rect(center=(SCREEN_WIDTH[0] / 2, confirm_button[1] - 30))
             screen.blit(error_surface, error_rect)
+
+        # Render the random move state label
+        random_move_text = "Random move on" if random_move else "Random move off"
+        random_move_surface = font.render(random_move_text, True, (0, 0, 0))
+        random_move_rect = random_move_surface.get_rect(center=(button_x + button_width / 2, button_y + 10))
+        screen.blit(random_move_surface, random_move_rect)
 
         pygame.display.flip()
         clock.tick(FPS[0])

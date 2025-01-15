@@ -1,20 +1,33 @@
+import random
+
 import pygame
 from entities.entity import Entity
 from entities.status import Status
 from utils.config import SCREEN_WIDTH, SCREEN_HEIGHT
 
+
 class Blox(Entity):
 
     def __init__(self, name, position, speed=pygame.Vector2(1, 1), status = Status.HEALTHY, recovery_time=3,
-                 radius=SCREEN_WIDTH[0] / 100 if SCREEN_HEIGHT[0] > SCREEN_WIDTH[0] else SCREEN_HEIGHT[0] / 100):
+                 radius=SCREEN_WIDTH[0] / 100 if SCREEN_HEIGHT[0] > SCREEN_WIDTH[0] else SCREEN_HEIGHT[0] / 100,
+                 random_move=False):
         super().__init__(name, position)
         self.status = status
         self.speed = speed
         self.radius = radius
         self.status_timer = 0
         self.recovery_time = recovery_time
+        self.random_move = random_move
 
     def move(self, screen_width, screen_height):
+        def gen_speed():
+            speed = 0
+            while speed == 0:
+                speed = random.randint(-4, 4)
+            return speed
+        if self.random_move and random.randint(0, 100) < 3:
+            self.speed = pygame.Vector2(gen_speed(),gen_speed())
+
         self.position += self.speed
 
         # Position correction if the Blox is going out of the screen
@@ -55,5 +68,5 @@ class Blox(Entity):
         self.status_timer += dt
         if self.status == Status.SICK and self.status_timer >= self.recovery_time:
             self.change_status()
-        elif self.status == Status.RECOVERED and self.status_timer >= self.recovery_time:
+        elif self.status == Status.RECOVERED and self.status_timer >= self.recovery_time / 2:
             self.change_status()

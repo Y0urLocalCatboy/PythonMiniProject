@@ -1,7 +1,7 @@
 import pygame
 
+from scenes.graph_scene import graph_scene
 from scenes.loading_scene import loading_scene
-from scenes.main_scene import main_scene
 from scenes.settings_scene import settings_scene
 from scenes.setup_scene import setup_scene
 from utils.config import SCREEN_WIDTH, SCREEN_HEIGHT, FPS
@@ -41,6 +41,12 @@ def menu_scene(running):
                    button_width, button_height,
                    "Exit"]
 
+    generate_graph_button = [button_x + spacing * 1.5, button_y - 2.5 * spacing,
+                             button_width + spacing / 2, button_height,
+                             "Generate Graph"]
+
+    error_message = ""
+
     while running[0]:
 
         screen.fill("white")
@@ -58,6 +64,8 @@ def menu_scene(running):
                     break
                 elif hover_over(settings_button, mouse):
                     settings_scene(screen, clock, running)
+                elif hover_over(generate_graph_button, mouse):
+                    graph_scene(screen, clock, running)
         if not running[0]:
             break
 
@@ -65,6 +73,13 @@ def menu_scene(running):
         button(main_scene_button, mouse, screen, font)
         button(settings_button, mouse, screen, font)
         button(exit_button, mouse, screen, font)
+        button(generate_graph_button, mouse, screen, font)
+
+        # Render the error message
+        if error_message:
+            error_surface = font.render(error_message, True, (255, 0, 0))
+            error_rect = error_surface.get_rect(center=(SCREEN_WIDTH[0] / 2, generate_graph_button[1] + 60))
+            screen.blit(error_surface, error_rect)
 
         pygame.display.flip()
         clock.tick(FPS[0])
