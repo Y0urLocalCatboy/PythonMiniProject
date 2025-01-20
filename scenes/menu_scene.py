@@ -1,6 +1,6 @@
 import pygame
 
-from scenes.graph_scene import graph_scene
+from scenes.graph_scenes.graph_scene import graph_scene
 from scenes.loading_scene import loading_scene
 from scenes.settings_scene import settings_scene
 from scenes.setup_scene import setup_scene

@@ -70,7 +70,7 @@ def main_scene(screen, clock, running, amount, ill_amount, recovery_time, random
         # Draw the back to menu button
         button(back_button, mouse, screen, pygame.font.SysFont('Arial', 20))
 
-        delay_for_data = 3
+        delay_for_data = 1
         if current_time % delay_for_data < clock.get_time() / 1000:
             data.append([current_time // delay_for_data, healthy, sick, recovered])
         # Create DataFrame and save to file
