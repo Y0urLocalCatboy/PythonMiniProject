@@ -10,7 +10,7 @@ from utils.scene_utils import button, hover_over
 
 def limits_scene(screen, clock, running):
     """
-    Limits scene of the simulation where the stabilization trends are analyzed and displayed.
+    Calculates the values the graphs are oscillating by.
 
     Args:
         screen (pygame.Surface): The screen surface to draw on.

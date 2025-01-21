@@ -66,6 +66,8 @@ def main_scene(screen, clock, running, amount, ill_amount, recovery_time, random
         # Draw the back to menu button
         button(back_button, mouse, screen, pygame.font.SysFont('Arial', 20))
 
+        # Draw bloxes
+        draw_bloxes(screen, bloxes)
         # Update bloxes and collect data
         for blox in bloxes:
             if blox.status == Status.HEALTHY:

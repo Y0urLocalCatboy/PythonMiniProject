@@ -67,6 +67,7 @@ def draw_road(screen, width, height):
     road = pygame.Rect(width / 2 - road_width / 2, 0, road_width, height)
     pygame.draw.rect(screen, (64, 64, 64), road)
 
+
 def draw_bloxes(screen, bloxes):
     """
     Draw bloxes on the screen.

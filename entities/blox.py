@@ -77,7 +77,7 @@ class Blox(Entity):
             self.position.y = screen_height - self.radius
             self.speed.y *= -1
 
-    def change_status(self):
+    def change_state(self):
         """
         Changes the status of the Blox in a cyclic manner:
         HEALTHY -> SICK -> RECOVERED -> HEALTHY.
@@ -100,10 +100,10 @@ class Blox(Entity):
         """
         if self.status == Status.SICK and blox.status == Status.HEALTHY:
             if self.position.distance_to(blox.position) <= self.radius * 2:
-                blox.change_status()
+                blox.change_state()
         elif blox.status == Status.SICK and self.status == Status.HEALTHY:
             if self.position.distance_to(blox.position) <= self.radius * 2:
-                self.change_status()
+                self.change_state()
 
     def update_status(self, dt):
         """
@@ -114,6 +114,6 @@ class Blox(Entity):
         """
         self.status_timer += dt
         if self.status == Status.SICK and self.status_timer >= self.recovery_time:
-            self.change_status()
+            self.change_state()
         elif self.status == Status.RECOVERED and self.status_timer >= self.recovery_time / 2:
-            self.change_status()
+            self.change_state()

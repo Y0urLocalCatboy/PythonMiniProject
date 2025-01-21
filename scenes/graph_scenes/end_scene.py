@@ -2,7 +2,7 @@ import pygame
 import pandas as pd
 import matplotlib.pyplot as plt
 import os
-import numpy as np  # New library for trend prediction
+import numpy as np
 
 from utils.config import FPS, SCREEN_WIDTH, SCREEN_HEIGHT
 from utils.scene_utils import button, hover_over
@@ -27,7 +27,7 @@ def end_scene(screen, clock, running):
         settings = file.readline().strip()
     df = pd.read_csv(data_filename, sep='\t', skiprows=1)
 
-    # Threshold for ending the epidemic (e.g., 5% of the population)
+    # Threshold for ending the epidemic
     population = df['Healthy'].iloc[0] + df['Sick'].iloc[0] + df['Recovered'].iloc[0]
     threshold = 0.05 * population
 
