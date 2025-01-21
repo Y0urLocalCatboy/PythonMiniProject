@@ -7,8 +7,13 @@ from scenes.setup_scene import setup_scene
 from utils.config import SCREEN_WIDTH, SCREEN_HEIGHT, FPS
 from utils.scene_utils import button, hover_over, music_on_off
 
-
 def menu_scene(running):
+    """
+    Display the main menu scene with options to start the simulation, adjust settings, or exit.
+
+    Args:
+        running (list): A list containing a single boolean element to control the running state.
+    """
     # pygame initialization
     pygame.init()
     clock = pygame.time.Clock()
@@ -24,9 +29,9 @@ def menu_scene(running):
     # button position and size
     button_width = 140
     button_height = 40
-    button_x = (SCREEN_WIDTH[0] - button_width) / 2 # rectangle isn't centered by default
+    button_x = (SCREEN_WIDTH[0] - button_width) / 2  # rectangle isn't centered by default
     button_y = (SCREEN_HEIGHT[0] - button_height) / 2
-    spacing = SCREEN_HEIGHT[0] // 6 # spacing between buttons
+    spacing = SCREEN_HEIGHT[0] // 6  # spacing between buttons
 
     # button initialization
     main_scene_button = [button_x, button_y - spacing,
@@ -48,7 +53,6 @@ def menu_scene(running):
     error_message = ""
 
     while running[0]:
-
         screen.fill("white")
         mouse = pygame.mouse.get_pos()
 
@@ -85,5 +89,3 @@ def menu_scene(running):
         clock.tick(FPS[0])
 
     pygame.quit()
-
-

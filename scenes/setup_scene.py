@@ -5,11 +5,18 @@ from scenes.main_scene import main_scene
 from utils.config import SCREEN_WIDTH, SCREEN_HEIGHT, FPS
 from utils.scene_utils import button, hover_over
 
-
 def setup_scene(screen, clock, running):
+    """
+    Display the setup scene where the user can specify the number of bloxes, recovery time, and initial ill bloxes.
+
+    Args:
+        screen (pygame.Surface): The screen surface to draw on.
+        clock (pygame.time.Clock): The clock to control the frame rate.
+        running (list): A list containing a single boolean element to control the running state.
+    """
     loading_scene(screen)
 
-    # font initialization
+    # Font initialization
     pygame.font.init()
     font = pygame.font.SysFont('Arial', 30)
 
@@ -29,13 +36,13 @@ def setup_scene(screen, clock, running):
     error_message = ""
     random_move = False
 
-    # button position and size
+    # Button position and size
     button_width = 140
     button_height = 40
     button_x = (SCREEN_WIDTH[0] - button_width) / 2
     button_y = ill_bloxes_amount_input_box.y + 120  # Adjusted to be lower
 
-    # button initialization
+    # Button initialization
     confirm_button = [button_x, button_y + 80, button_width, button_height, "Confirm"]
     random_move_button = [button_x - 25, button_y - 50, button_width + 50, button_height, "Random move"]
 
@@ -99,7 +106,7 @@ def setup_scene(screen, clock, running):
         if not running[0]:
             break
 
-        # button drawing
+        # Button drawing
         button(confirm_button, mouse, screen, font)
         button(random_move_button, mouse, screen, font)
 
@@ -126,7 +133,7 @@ def setup_scene(screen, clock, running):
         ill_bloxes_color = (200, 200, 200) if ill_bloxes_amount else (0, 0, 0)
         pygame.draw.rect(screen, ill_bloxes_color, ill_bloxes_amount_input_box, 2)
 
-        # Render textes
+        # Render texts
         text_surface = font.render(amount_input_text, True, "black")
         screen.blit(text_surface, (bloxes_amount_input_box.x + 5, bloxes_amount_input_box.y + 5))
         bloxes_amount_input_box.w = max(200, text_surface.get_width() + 10)

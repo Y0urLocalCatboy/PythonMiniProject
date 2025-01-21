@@ -2,12 +2,20 @@ import pygame
 import pandas as pd
 import matplotlib.pyplot as plt
 import os
-import numpy as np  # Nowa biblioteka do predykcji trendu
+import numpy as np  # New library for trend prediction
 
 from utils.config import FPS, SCREEN_WIDTH, SCREEN_HEIGHT
 from utils.scene_utils import button, hover_over
 
 def end_scene(screen, clock, running):
+    """
+    End scene of the simulation where the results are displayed.
+
+    Args:
+        screen (pygame.Surface): The screen surface to draw on.
+        clock (pygame.time.Clock): The clock to control the frame rate.
+        running (list): A list containing a single boolean element to control the running state.
+    """
     file_number = 1
     while os.path.exists(f'data/data{file_number + 1}.txt'):
         file_number += 1

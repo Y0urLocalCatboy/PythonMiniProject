@@ -7,10 +7,33 @@ from utils.config import SCREEN_WIDTH, SCREEN_HEIGHT
 
 
 class Blox(Entity):
+    """
+    Represents a Blox entity in the game.
 
+    Attributes:
+        name (str): The name of the Blox.
+        position (pygame.Vector2): The position of the Blox.
+        speed (pygame.Vector2): The speed vector of the Blox.
+        status (Status): The current status of the Blox.
+        recovery_time (int): The time it takes for the Blox to recover.
+        radius (float): The radius of the Blox.
+        random_move (bool): Whether the Blox moves randomly.
+    """
     def __init__(self, name, position, speed=pygame.Vector2(1, 1), status = Status.HEALTHY, recovery_time=3,
                  radius=SCREEN_WIDTH[0] / 100 if SCREEN_HEIGHT[0] > SCREEN_WIDTH[0] else SCREEN_HEIGHT[0] / 100,
                  random_move=False):
+        """
+        Initializes a new Blox instance.
+
+        Args:
+            name (str): The name of the Blox.
+            position (pygame.Vector2): The initial position of the Blox.
+            speed (pygame.Vector2, optional): The speed vector of the Blox. Defaults to pygame.Vector2(1, 1).
+            status (Status, optional): The initial status of the Blox. Defaults to Status.HEALTHY.
+            recovery_time (int, optional): The time it takes for the Blox to recover. Defaults to 3.
+            radius (float, optional): The radius of the Blox. Defaults to a calculated value based on screen size.
+            random_move (bool, optional): Whether the Blox moves randomly. Defaults to False.
+        """
         super().__init__(name, position)
         self.status = status
         self.speed = speed
@@ -20,6 +43,13 @@ class Blox(Entity):
         self.random_move = random_move
 
     def move(self, screen_width, screen_height):
+        """
+        Moves the Blox based on its speed and handles screen boundary collisions.
+
+        Args:
+            screen_width (int): The width of the screen.
+            screen_height (int): The height of the screen.
+        """
         def gen_speed():
             speed = 0
             while speed == 0:
@@ -48,6 +78,11 @@ class Blox(Entity):
             self.speed.y *= -1
 
     def change_status(self):
+        """
+        Changes the status of the Blox in a cyclic manner:
+        HEALTHY -> SICK -> RECOVERED -> HEALTHY.
+        Resets the status timer after changing the status.
+        """
         if self.status == Status.HEALTHY:
             self.status = Status.SICK
         elif self.status == Status.SICK:
@@ -57,6 +92,12 @@ class Blox(Entity):
         self.status_timer = 0  # Reset the timer when status changes
 
     def aura(self, blox):
+        """
+        Infects a nearby healthy Blox if this Blox is sick, or gets infected by a nearby sick Blox.
+
+        Args:
+            blox (Blox): Another Blox instance to check for infection.
+        """
         if self.status == Status.SICK and blox.status == Status.HEALTHY:
             if self.position.distance_to(blox.position) <= self.radius * 2:
                 blox.change_status()
@@ -65,6 +106,12 @@ class Blox(Entity):
                 self.change_status()
 
     def update_status(self, dt):
+        """
+        Updates the status of the Blox based on the elapsed time.
+
+        Args:
+            dt (float): The time delta since the last update.
+        """
         self.status_timer += dt
         if self.status == Status.SICK and self.status_timer >= self.recovery_time:
             self.change_status()

@@ -1,7 +1,6 @@
 import time
 import pygame
 from entities.blox import Blox
-from entities.building import Building
 from entities.status import Status
 from scenes.loading_scene import loading_scene
 from utils.config import FPS, SCREEN_WIDTH, SCREEN_HEIGHT
@@ -10,6 +9,18 @@ import pandas as pd
 import os
 
 def main_scene(screen, clock, running, amount, ill_amount, recovery_time, random_move):
+    """
+    Main scene of the simulation where the bloxes interact.
+
+    Args:
+        screen (pygame.Surface): The screen surface to draw on.
+        clock (pygame.time.Clock): The clock to control the frame rate.
+        running (list): A list containing a single boolean element to control the running state.
+        amount (int): The initial number of bloxes.
+        ill_amount (int): The initial number of sick bloxes.
+        recovery_time (int): The time it takes for a blox to recover.
+        random_move (bool): Whether the bloxes move randomly.
+    """
     loading_scene(screen)
 
     bloxes = generate_bloxes(amount, ill_amount, recovery_time, random_move)
@@ -34,7 +45,7 @@ def main_scene(screen, clock, running, amount, ill_amount, recovery_time, random
 
     while running[0]:
         current_time += clock.get_time() / 1000
-        # Road
+        # Draw the road
         draw_road(screen, SCREEN_WIDTH[0], SCREEN_HEIGHT[0])
         mouse = pygame.mouse.get_pos()
 
@@ -52,8 +63,10 @@ def main_scene(screen, clock, running, amount, ill_amount, recovery_time, random
                                         random_move=random_move)
                     bloxes.append(spawned_blox)
 
-        # Bloxes
-        draw_bloxes(screen, bloxes)
+        # Draw the back to menu button
+        button(back_button, mouse, screen, pygame.font.SysFont('Arial', 20))
+
+        # Update bloxes and collect data
         for blox in bloxes:
             if blox.status == Status.HEALTHY:
                 healthy += 1
@@ -67,10 +80,8 @@ def main_scene(screen, clock, running, amount, ill_amount, recovery_time, random
                 if blox != other_blox:
                     blox.aura(other_blox)
 
-        # Draw the back to menu button
-        button(back_button, mouse, screen, pygame.font.SysFont('Arial', 20))
-
-        delay_for_data = 1
+        # Collect data every few seconds
+        delay_for_data = 3
         if current_time % delay_for_data < clock.get_time() / 1000:
             data.append([current_time // delay_for_data, healthy, sick, recovered])
         # Create DataFrame and save to file

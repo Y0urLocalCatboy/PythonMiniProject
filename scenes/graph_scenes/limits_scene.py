@@ -9,6 +9,14 @@ from utils.config import FPS, SCREEN_WIDTH, SCREEN_HEIGHT
 from utils.scene_utils import button, hover_over
 
 def limits_scene(screen, clock, running):
+    """
+    Limits scene of the simulation where the stabilization trends are analyzed and displayed.
+
+    Args:
+        screen (pygame.Surface): The screen surface to draw on.
+        clock (pygame.time.Clock): The clock to control the frame rate.
+        running (list): A list containing a single boolean element to control the running state.
+    """
     # Ensure the data folder exists
     if not os.path.exists('data'):
         os.makedirs('data')
