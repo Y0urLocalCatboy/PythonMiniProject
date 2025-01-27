@@ -5,6 +5,7 @@ import os
 from sklearn.linear_model import LinearRegression
 import numpy as np
 
+from scenes.loading_scene import loading_scene
 from utils.config import FPS, SCREEN_WIDTH, SCREEN_HEIGHT
 from utils.scene_utils import button, hover_over
 
@@ -17,26 +18,27 @@ def limits_scene(screen, clock, running):
         clock (pygame.time.Clock): The clock to control the frame rate.
         running (list): A list containing a single boolean element to control the running state.
     """
-    # Ensure the data folder exists
+    loading_scene(screen)
     if not os.path.exists('data'):
         os.makedirs('data')
 
-    # Determine the latest data file
     file_number = 1
     while os.path.exists(f'data/data{file_number + 1}.txt'):
         file_number += 1
     data_filename = f'data/data{file_number}.txt'
     graph_filename = f'data/graph{file_number}.png'
 
-    # Load data from the latest data file
     with open(data_filename, 'r') as file:
         settings = file.readline().strip()
     df = pd.read_csv(data_filename, sep='\t', skiprows=1)
 
     # Analyze the stabilization trend for Sick, Recovered, and Healthy
     def predict_stable_value(y_values):
-        """Predict the stable value by performing linear regression on the last N points."""
-        N = 50  # Number of last points to consider
+        """Predict the stable value by performing linear regression on the last N points.
+
+        Args: y_values (list): The list of values to predict the stable value for.
+            """
+        N = 500  # Number of last points to consider
         if len(y_values) >= N:
             X = np.arange(len(y_values) - N, len(y_values)).reshape(-1, 1)
             y = y_values[-N:]
@@ -54,9 +56,9 @@ def limits_scene(screen, clock, running):
 
     button_width = 140
     button_height = 40
-    button_x = (SCREEN_WIDTH[0] - button_width) / 2  # Rectangle isn't centered by default
+    button_x = (SCREEN_WIDTH[0] - button_width) / 2
     button_y = (SCREEN_HEIGHT[0] - button_height) / 2
-    spacing = SCREEN_HEIGHT[0] // 6  # Spacing between buttons
+    spacing = SCREEN_HEIGHT[0] // 6
 
     back_button = [button_x + spacing * 1.5, button_y - 2.5 * spacing,
                    button_width + spacing / 2, button_height,

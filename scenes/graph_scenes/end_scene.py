@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import os
 import numpy as np
 
+from scenes.loading_scene import loading_scene
 from utils.config import FPS, SCREEN_WIDTH, SCREEN_HEIGHT
 from utils.scene_utils import button, hover_over
 
@@ -16,6 +17,8 @@ def end_scene(screen, clock, running):
         clock (pygame.time.Clock): The clock to control the frame rate.
         running (list): A list containing a single boolean element to control the running state.
     """
+    loading_scene(screen)
+
     file_number = 1
     while os.path.exists(f'data/data{file_number + 1}.txt'):
         file_number += 1

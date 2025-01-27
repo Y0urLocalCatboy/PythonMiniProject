@@ -3,10 +3,13 @@ import pygame
 from scenes.graph_scenes.end_scene import end_scene
 from scenes.graph_scenes.limits_scene import limits_scene
 from scenes.graph_scenes.time_scene import time_scene
+from scenes.loading_scene import loading_scene
 from utils.config import FPS, SCREEN_WIDTH, SCREEN_HEIGHT
 from utils.scene_utils import button, hover_over
 
 def graph_scene(screen, clock, running):
+    loading_scene(screen)
+
     button_width = 200
     button_height = 50
     spacing = SCREEN_HEIGHT[0] // 8
