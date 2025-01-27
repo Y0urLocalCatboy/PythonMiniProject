@@ -23,7 +23,7 @@ def calculate_stabilization_times(df, threshold=50, window=20):
         differences = df[column].diff().abs()
         for i in range(len(differences) - window):
             if differences[i:i + window].max() <= threshold:
-                stabilization_times[column] = df["Time"].iloc[i + window]  # Time when the stabilization
+                stabilization_times[column] = df["Time"].iloc[i + window]
                 break
         else:
             stabilization_times[column] = None
@@ -39,29 +39,23 @@ def time_scene(screen, clock, running):
         clock (pygame.time.Clock): The clock to control the frame rate.
         running (list): A list containing a single boolean element to control the running state.
     """
-    # Ensure the data folder exists
     if not os.path.exists('data'):
         os.makedirs('data')
 
-    # Determine the latest data file
     file_number = 1
     while os.path.exists(f'data/data{file_number + 1}.txt'):
         file_number += 1
     data_filename = f'data/data{file_number}.txt'
     graph_filename = f'data/graph{file_number}.png'
 
-    # Load data from the latest data file
     with open(data_filename, 'r') as file:
         settings = file.readline().strip()
     df = pd.read_csv(data_filename, sep='\t', skiprows=1)
 
-    # Calculate stabilization times
     stabilization_times = calculate_stabilization_times(df)
 
-    # Create plots
     plt.figure(figsize=(10, 6))
 
-    # Plot historical data
     plt.plot(df['Time'], df['Healthy'], label='Healthy', color='green')
     plt.plot(df['Time'], df['Sick'], label='Sick', color='red')
     plt.plot(df['Time'], df['Recovered'], label='Recovered', color='blue')
@@ -71,32 +65,27 @@ def time_scene(screen, clock, running):
     plt.title(f'Simulation Data Over Time\n{settings}')
     plt.legend()
 
-    # Add stabilization times as text under the graph
     stabilization_text = "\n".join([f"{group}: {time:.2f}s" if time is not None else f"{group}: Not stabilized"
                                     for group, time in stabilization_times.items()])
     plt.figtext(0.5, -0.1, f"Stabilization Times:\n{stabilization_text}", wrap=True, horizontalalignment='center',
                 fontsize=10)
 
-    # Save the plot as an image
     plt.savefig(graph_filename, bbox_inches='tight')
     plt.close()
 
-    # Load the image with pygame
     graph_image = pygame.image.load(graph_filename)
     graph_rect = graph_image.get_rect(center=(screen.get_width() // 2, screen.get_height() // 2))
 
-    # Button position and size
     button_width = 140
     button_height = 40
-    button_x = (SCREEN_WIDTH[0] - button_width) / 2  # Rectangle isn't centered by default
+    button_x = (SCREEN_WIDTH[0] - button_width) / 2
     button_y = (SCREEN_HEIGHT[0] - button_height) / 2
-    spacing = SCREEN_HEIGHT[0] // 6  # Spacing between buttons
+    spacing = SCREEN_HEIGHT[0] // 6
 
     back_button = [button_x + spacing * 1.5, button_y - 2.5 * spacing,
                    button_width + spacing / 2, button_height,
                    "Back"]
 
-    # Font initialization
     pygame.font.init()
     font = pygame.font.SysFont('Arial', 30)
 

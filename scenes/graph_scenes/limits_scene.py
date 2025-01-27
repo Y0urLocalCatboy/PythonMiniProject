@@ -42,7 +42,7 @@ def limits_scene(screen, clock, running):
             y = y_values[-N:]
             model = LinearRegression()
             model.fit(X, y)
-            return model.predict([[len(y_values)]])[0]  # Predicted value at the end
+            return model.predict([[len(y_values)]])[0]
         else:
             return None
 
@@ -50,10 +50,8 @@ def limits_scene(screen, clock, running):
     predicted_sick = predict_stable_value(df['Sick'].values)
     predicted_recovered = predict_stable_value(df['Recovered'].values)
 
-    # Create plots
     plt.figure(figsize=(10, 6))
 
-    # Button position and size
     button_width = 140
     button_height = 40
     button_x = (SCREEN_WIDTH[0] - button_width) / 2  # Rectangle isn't centered by default
@@ -64,7 +62,6 @@ def limits_scene(screen, clock, running):
                    button_width + spacing / 2, button_height,
                    "Back"]
 
-    # Font initialization
     pygame.font.init()
     font = pygame.font.SysFont('Arial', 30)
 
@@ -72,7 +69,6 @@ def limits_scene(screen, clock, running):
     plt.plot(df['Time'], df['Sick'], label='Sick', color='red')
     plt.plot(df['Time'], df['Recovered'], label='Recovered', color='blue')
 
-    # Annotate predictions
     if predicted_healthy:
         plt.axhline(predicted_healthy, color='green', linestyle='--', alpha=0.6, label=f'Predicted Healthy: {int(predicted_healthy)}')
     if predicted_sick:
@@ -85,11 +81,9 @@ def limits_scene(screen, clock, running):
     plt.title(f'Simulation Data Over Time\n{settings}')
     plt.legend()
 
-    # Save the plot as an image
     plt.savefig(graph_filename)
     plt.close()
 
-    # Load the image with pygame
     graph_image = pygame.image.load(graph_filename)
     graph_rect = graph_image.get_rect(center=(screen.get_width() // 2, screen.get_height() // 2))
 
@@ -106,7 +100,6 @@ def limits_scene(screen, clock, running):
         screen.blit(graph_image, graph_rect)
         button(back_button, mouse, screen, font)
 
-        # Display predicted stabilization values
         predictions_text = [
             f'Predicted Healthy: {int(predicted_healthy)}' if predicted_healthy else "Healthy: Prediction not available",
             f'Predicted Sick: {int(predicted_sick)}' if predicted_sick else "Sick: Prediction not available",

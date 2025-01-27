@@ -14,7 +14,7 @@ def menu_scene(running):
     Args:
         running (list): A list containing a single boolean element to control the running state.
     """
-    # pygame initialization
+
     pygame.init()
     clock = pygame.time.Clock()
 
@@ -22,18 +22,15 @@ def menu_scene(running):
     music_on_off("assets/sounds/background_music.mid")
     loading_scene(screen)
 
-    # font initialization
     pygame.font.init()
     font = pygame.font.SysFont('Arial', 30)
 
-    # button position and size
     button_width = 140
     button_height = 40
-    button_x = (SCREEN_WIDTH[0] - button_width) / 2  # rectangle isn't centered by default
+    button_x = (SCREEN_WIDTH[0] - button_width) / 2
     button_y = (SCREEN_HEIGHT[0] - button_height) / 2
-    spacing = SCREEN_HEIGHT[0] // 6  # spacing between buttons
+    spacing = SCREEN_HEIGHT[0] // 6
 
-    # button initialization
     main_scene_button = [button_x, button_y - spacing,
                          button_width, button_height,
                          "Start"]
@@ -56,7 +53,6 @@ def menu_scene(running):
         screen.fill("white")
         mouse = pygame.mouse.get_pos()
 
-        # event handling
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running[0] = False
@@ -73,13 +69,11 @@ def menu_scene(running):
         if not running[0]:
             break
 
-        # button drawing
         button(main_scene_button, mouse, screen, font)
         button(settings_button, mouse, screen, font)
         button(exit_button, mouse, screen, font)
         button(generate_graph_button, mouse, screen, font)
 
-        # Render the error message
         if error_message:
             error_surface = font.render(error_message, True, (255, 0, 0))
             error_rect = error_surface.get_rect(center=(SCREEN_WIDTH[0] / 2, generate_graph_button[1] + 60))

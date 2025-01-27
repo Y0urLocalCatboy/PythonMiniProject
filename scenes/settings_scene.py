@@ -16,21 +16,17 @@ def settings_scene(screen, clock, running):
     from scenes.menu_scene import menu_scene
     loading_scene(screen)
 
-    # Setting up the sizes for the game
     sizes = [BASE_SIZE, [1000, 1000], [1280, 720]]
 
-    # Font initialization
     pygame.font.init()
     font = pygame.font.SysFont('Arial', 30)
 
-    # Button position and size
     button_width = 140
     button_height = 40
-    button_x = (SCREEN_WIDTH[0] - button_width) / 2  # Rectangle isn't centered by default
+    button_x = (SCREEN_WIDTH[0] - button_width) / 2
     button_y = (SCREEN_HEIGHT[0] - button_height) / 2
-    spacing = SCREEN_HEIGHT[0] // 6  # Spacing between buttons
+    spacing = SCREEN_HEIGHT[0] // 6
 
-    # Button initialization
     sound_button = [button_x, button_y - spacing,
                     button_width, button_height,
                     "Sound"]
@@ -69,19 +65,16 @@ def settings_scene(screen, clock, running):
             if not running[0]:
                 break
 
-        # Button drawing
         button(sound_button, mouse, screen, font)
         button(change_size_button, mouse, screen, font)
         button(confirm_button, mouse, screen, font)
 
-        # Render current size text
         current_size = pygame.display.get_surface().get_size()
         size_text = f"Current size: {current_size[0]}x{current_size[1]}"
         size_surface = font.render(size_text, True, (0, 0, 0))
         size_rect = size_surface.get_rect(center=(button_x + button_width / 2, button_y + button_height + 20))
         screen.blit(size_surface, size_rect)
 
-        # Render sound status text
         sound_text = "Sound is on" if MUSIC_SWITCH[0] else "Sound is off"
         sound_surface = font.render(sound_text, True, (0, 0, 0))
         sound_rect = sound_surface.get_rect(center=(button_x + button_width / 2, button_y - button_height))

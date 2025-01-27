@@ -28,16 +28,13 @@ def main_scene(screen, clock, running, amount, ill_amount, recovery_time, random
     current_time = 0
     data = []
 
-    # Define the back to menu button
     button_width = 140
     button_height = 40
     back_button = [10, 10, button_width, button_height, "Back to Menu"]
 
-    # Ensure the data folder exists
     if not os.path.exists('data'):
         os.makedirs('data')
 
-    # Determine the next available file number
     file_number = 1
     while os.path.exists(f'data/data{file_number}.txt'):
         file_number += 1
@@ -45,7 +42,7 @@ def main_scene(screen, clock, running, amount, ill_amount, recovery_time, random
 
     while running[0]:
         current_time += clock.get_time() / 1000
-        # Draw the road
+
         draw_road(screen, SCREEN_WIDTH[0], SCREEN_HEIGHT[0])
         mouse = pygame.mouse.get_pos()
 
@@ -56,19 +53,17 @@ def main_scene(screen, clock, running, amount, ill_amount, recovery_time, random
                 if hover_over(back_button, mouse):
                     from scenes.menu_scene import menu_scene
                     menu_scene(running)
-                    return  # Exit the main_scene function immediately
+                    return
                 else:
                     mouse_pos = pygame.Vector2(event.pos)
                     spawned_blox = Blox("SpawnedBlox", mouse_pos, pygame.Vector2(gen_speed(), gen_speed()), Status.SICK,
                                         random_move=random_move)
                     bloxes.append(spawned_blox)
 
-        # Draw the back to menu button
         button(back_button, mouse, screen, pygame.font.SysFont('Arial', 20))
 
         # Draw bloxes
         draw_bloxes(screen, bloxes)
-        # Update bloxes and collect data
         for blox in bloxes:
             if blox.status == Status.HEALTHY:
                 healthy += 1

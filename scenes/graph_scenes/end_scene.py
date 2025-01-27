@@ -22,23 +22,20 @@ def end_scene(screen, clock, running):
     data_filename = f'data/data{file_number}.txt'
     graph_filename = f'data/graph{file_number}.png'
 
-    # Load data from the latest data file
     with open(data_filename, 'r') as file:
         settings = file.readline().strip()
     df = pd.read_csv(data_filename, sep='\t', skiprows=1)
 
-    # Threshold for ending the epidemic
     population = df['Healthy'].iloc[0] + df['Sick'].iloc[0] + df['Recovered'].iloc[0]
     threshold = 0.05 * population
 
-    # Determine when Sick drops below the threshold
     end_time = None
     for time, sick_count in zip(df['Time'], df['Sick']):
         if sick_count <= threshold and time > 5:
             end_time = time
             break
 
-    # Predict the end of the epidemic using a trend line (if end_time is not found)
+    # Predict the end of the epidemic using a trend line
     predicted_end_time = None
     if end_time is None:
         # Fit a trend line to the last N points
@@ -52,21 +49,18 @@ def end_scene(screen, clock, running):
             if slope < 0:  # Check if the trend is downward
                 predicted_end_time = (threshold - intercept) / slope
 
-    # Create plots
     plt.figure(figsize=(10, 6))
 
-    # Button position and size
     button_width = 140
     button_height = 40
-    button_x = (SCREEN_WIDTH[0] - button_width) / 2  # Rectangle isn't centered by default
+    button_x = (SCREEN_WIDTH[0] - button_width) / 2
     button_y = (SCREEN_HEIGHT[0] - button_height) / 2
-    spacing = SCREEN_HEIGHT[0] // 6  # Spacing between buttons
+    spacing = SCREEN_HEIGHT[0] // 6
 
     back_button = [button_x + spacing * 1.5, button_y - 2.5 * spacing,
                    button_width + spacing / 2, button_height,
                    "Back"]
 
-    # Font initialization
     pygame.font.init()
     font = pygame.font.SysFont('Arial', 30)
 
@@ -79,7 +73,6 @@ def end_scene(screen, clock, running):
     plt.title(f'Simulation Data Over Time\n{settings}')
     plt.legend()
 
-    # Display end time on the plot if it was calculated
     if end_time is not None:
         plt.annotate(f'Epidemic ends: {end_time:.2f}s',
                      xy=(end_time, threshold), xytext=(end_time + 50, threshold + 10),
@@ -98,11 +91,9 @@ def end_scene(screen, clock, running):
         plt.text(0.5, -0.12, f'Epidemic end time could not be determined.',
                  fontsize=12, color='red', transform=plt.gca().transAxes, ha='center')
 
-    # Save the plot as an image
     plt.savefig(graph_filename)
     plt.close()
 
-    # Load the image with pygame
     graph_image = pygame.image.load(graph_filename)
     graph_rect = graph_image.get_rect(center=(screen.get_width() // 2, screen.get_height() // 2))
 

@@ -16,11 +16,9 @@ def setup_scene(screen, clock, running):
     """
     loading_scene(screen)
 
-    # Font initialization
     pygame.font.init()
     font = pygame.font.SysFont('Arial', 30)
 
-    # Text input box settings
     bloxes_amount_input_box = pygame.Rect((SCREEN_WIDTH[0] - 200) / 2, SCREEN_HEIGHT[0] / 6, 200, 40)
     recovery_time_input_box = pygame.Rect((SCREEN_WIDTH[0] - 200) / 2, SCREEN_HEIGHT[0] / 6 + 100, 200, 40)
     ill_bloxes_amount_input_box = pygame.Rect((SCREEN_WIDTH[0] - 200) / 2, SCREEN_HEIGHT[0] / 6 + 200, 200, 40)
@@ -36,13 +34,11 @@ def setup_scene(screen, clock, running):
     error_message = ""
     random_move = False
 
-    # Button position and size
     button_width = 140
     button_height = 40
     button_x = (SCREEN_WIDTH[0] - button_width) / 2
     button_y = ill_bloxes_amount_input_box.y + 120  # Adjusted to be lower
 
-    # Button initialization
     confirm_button = [button_x, button_y + 80, button_width, button_height, "Confirm"]
     random_move_button = [button_x - 25, button_y - 50, button_width + 50, button_height, "Random move"]
 
@@ -106,11 +102,9 @@ def setup_scene(screen, clock, running):
         if not running[0]:
             break
 
-        # Button drawing
         button(confirm_button, mouse, screen, font)
         button(random_move_button, mouse, screen, font)
 
-        # Render the labels
         label_surface = font.render("Specify amount of bloxes:", True, (0, 0, 0))
         label_rect = label_surface.get_rect(center=(SCREEN_WIDTH[0] / 2, bloxes_amount_input_box.y - 40))
         screen.blit(label_surface, label_rect)
@@ -123,7 +117,6 @@ def setup_scene(screen, clock, running):
         ill_bloxes_label_rect = ill_bloxes_label_surface.get_rect(center=(SCREEN_WIDTH[0] / 2, ill_bloxes_amount_input_box.y - 40))
         screen.blit(ill_bloxes_label_surface, ill_bloxes_label_rect)
 
-        # Render input boxes
         color = (200, 200, 200) if amount_input_text != "" else (0, 0, 0)
         pygame.draw.rect(screen, color, bloxes_amount_input_box, 2)
 
@@ -133,7 +126,6 @@ def setup_scene(screen, clock, running):
         ill_bloxes_color = (200, 200, 200) if ill_bloxes_amount else (0, 0, 0)
         pygame.draw.rect(screen, ill_bloxes_color, ill_bloxes_amount_input_box, 2)
 
-        # Render texts
         text_surface = font.render(amount_input_text, True, "black")
         screen.blit(text_surface, (bloxes_amount_input_box.x + 5, bloxes_amount_input_box.y + 5))
         bloxes_amount_input_box.w = max(200, text_surface.get_width() + 10)
@@ -146,13 +138,11 @@ def setup_scene(screen, clock, running):
         screen.blit(ill_bloxes_text_surface, (ill_bloxes_amount_input_box.x + 5, ill_bloxes_amount_input_box.y + 5))
         ill_bloxes_amount_input_box.w = max(200, ill_bloxes_text_surface.get_width() + 10)
 
-        # Render the error message
         if error_message:
             error_surface = font.render(error_message, True, (255, 0, 0))
             error_rect = error_surface.get_rect(center=(SCREEN_WIDTH[0] / 2, confirm_button[1] - 30))
             screen.blit(error_surface, error_rect)
 
-        # Render the random move state label
         random_move_text = "Random move on" if random_move else "Random move off"
         random_move_surface = font.render(random_move_text, True, (0, 0, 0))
         random_move_rect = random_move_surface.get_rect(center=(button_x + button_width / 2, button_y + 10))
